@@ -1,37 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import ContactInfo from "./ContactInfo";
+import DeleteModal from "./modals/DeleteModal";
+import useData from "../provider/DataProvider";
 
 export default function ContactList() {
-  const contactList = [
-    {
-      name: "Mithun",
-      phone: 636666666,
-      email: "mithunpoojary180@gmail.com",
-    },
-    {
-      name: "Virat",
-      phone: 909023456,
-      email: "Virat@gmail.com",
-    },
-    {
-      name: "Appu",
-      phone: 11111111111,
-      email: "Appu@gmail.com",
-    },
-    {
-      name: "Mithun poojay",
-      phone: 636666609,
-      email: "mithunpoojary180@gmail.com",
-    },
-  ];
+  const [open, setOpen] = useState(false);
+  const handleToggle = () => setOpen((cur) => !cur);
+
+  const { deleteContact } = useData();
+
+  const { contactList } = useData();
   return (
     <div className="flex flex-col items-center">
       {contactList.map((contact) => (
-        <div key={contact.phone} className="border-b p-2">
+        <div key={contact.id} className="border-b p-2">
           <ContactInfo
-            name={contact.name}
-            phone={contact.phone}
-            email={contact.email}
+            name={`${contact.firstName} ${contact.lastName}`}
+            phone={contact.phoneNumber1}
+            email={contact.email1}
+            handleToggle={handleToggle}
+          />
+          <DeleteModal
+            handleToggle={handleToggle}
+            open={open}
+            deleteContact={() => deleteContact(contact.id)}
           />
         </div>
       ))}

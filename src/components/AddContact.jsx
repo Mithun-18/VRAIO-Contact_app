@@ -1,18 +1,18 @@
-import React from "react";
-import { ContactModal } from "./modal/ContactModal";
+import React, { useState } from "react";
+import { ContactModal } from "./modals/ContactModal";
 
 export default function AddContact() {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen((cur) => !cur);
+  const [open, setOpen] = useState(false);
+  const handleToggle = () => setOpen((cur) => !cur);
   return (
     <div className="flex justify-end p-4">
       <button
-        onClick={handleOpen}
+        onClick={handleToggle}
         className="bg-blue-500 text-white p-2 rounded-md"
       >
         Add Contact
       </button>
-      {open && <ContactModal open={open} handleOpen={handleOpen} />}
+      <ContactModal open={open} handleToggle={handleToggle} />
     </div>
   );
 }

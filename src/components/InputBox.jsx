@@ -5,8 +5,9 @@ export default function InputBox({
   placeholder,
   name,
   required,
-  minLength,
-  maxLength,
+  pattern,
+  Msg,
+  inputRef,
 }) {
   return (
     <input
@@ -14,8 +15,9 @@ export default function InputBox({
       placeholder={placeholder}
       name={name}
       required={required || false}
-      minLength={minLength}
-      maxLength={maxLength}
+      pattern={pattern}
+      title={Msg}
+      ref={inputRef}
       className="input input-bordered border rounded-md p-2"
     />
   );
