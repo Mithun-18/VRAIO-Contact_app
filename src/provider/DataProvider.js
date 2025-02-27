@@ -8,7 +8,7 @@ export function DataProvider({ children }) {
       firstName: "Mithun",
       lastName: "Poojary",
       nickName: "Mithu",
-      dob: "26-09-2003",
+      dob: "2003-09-26",
       phoneNumber1: 6360320806,
       phoneNumber2: "",
       email1: "mithunpoojary180@gmail.com",
@@ -19,7 +19,7 @@ export function DataProvider({ children }) {
       firstName: "Sudeep",
       lastName: "Acharya",
       nickName: "",
-      dob: "22-01-2001",
+      dob: "2003-02-24",
       phoneNumber1: 9360320608,
       phoneNumber2: "",
       email1: "s@gmail.com",
@@ -30,7 +30,7 @@ export function DataProvider({ children }) {
       firstName: "Manoj",
       lastName: "shetty",
       nickName: "",
-      dob: "25-09-2003",
+      dob: "2003-02-24",
       phoneNumber1: 8880320806,
       phoneNumber2: "",
       email1: "manoj@gmail.com",
@@ -53,13 +53,11 @@ export function DataProvider({ children }) {
     } catch (error) {}
   }
 
-  async function updateContact(contact) {
-    // try {
-    //   deleteContact(contact.id);
-    //   addContact(contact);
-    // } catch (error) {
-    //   console.log("error", error);
-    // }
+  function updateContact(contact) {
+    try {
+      deleteContact(contact.id);
+      addContact(contact);
+    } catch (error) {}
   }
 
   function deleteContact(contactId) {

@@ -23,7 +23,7 @@ export function ContactModal() {
 
   const [contact] = getContact(contactIdToUpdate);
 
-  async function handleSubmit() {
+  function handleSubmit() {
     let data = {
       id: contact?.id || Date.now(),
       firstName: firstNameRef?.current?.value,
@@ -37,11 +37,9 @@ export function ContactModal() {
     };
 
     if (contact?.id) {
-      console.log("here12323", contact);
-      await updateContact(contact.id);
+      updateContact(data);
       setContactIdToUpdate(null);
     } else {
-      console.log("here", contact);
       addContact(data);
     }
     setOpenContactModal(false);

@@ -7,16 +7,18 @@ export default function ContactList() {
 
   return (
     <div className="flex flex-col items-center">
-      {contactList.map((contact) => (
-        <div key={contact.id} className="border-b p-2">
-          <ContactInfo
-            id={contact.id}
-            name={`${contact.firstName} ${contact.lastName}`}
-            phone={contact.phoneNumber1}
-            email={contact.email1}
-          />
-        </div>
-      ))}
+      {[...contactList]
+        .sort((a, b) => a.firstName.localeCompare(b.firstName))
+        .map((contact) => (
+          <div key={contact.id} className="border-b p-2">
+            <ContactInfo
+              id={contact.id}
+              name={`${contact.firstName} ${contact.lastName}`}
+              phone={contact.phoneNumber1}
+              email={contact.email1}
+            />
+          </div>
+        ))}
     </div>
   );
 }
