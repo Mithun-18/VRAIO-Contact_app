@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
 const DataContext = createContext();
 export function DataProvider({ children }) {
@@ -38,6 +38,9 @@ export function DataProvider({ children }) {
     },
   ]);
 
+  const [openContactModal, setOpenContactModal] = useState(false);
+  const [contactIdToDelete, setContactIdToDelete] = useState(null);
+
   function addContact(contact) {
     try {
       setContactList((prev) => [...prev, contact]);
@@ -50,11 +53,18 @@ export function DataProvider({ children }) {
     setContactList(contactList.filter((contact) => contact.id !== contact_id));
   }
 
-  useEffect(() => {
-    console.log("contactLst", contactList);
-  }, [contactList]);
   return (
-    <DataContext.Provider value={{ contactList, addContact, deleteContact }}>
+    <DataContext.Provider
+      value={{
+        contactList,
+        openContactModal,
+        setOpenContactModal,
+        contactIdToDelete,
+        setContactIdToDelete,
+        addContact,
+        deleteContact,
+      }}
+    >
       {children}
     </DataContext.Provider>
   );

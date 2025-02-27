@@ -1,25 +1,37 @@
 import React from "react";
 
-export default function DeleteModal({ open, handleToggle, deleteContact }) {
+export default function DeleteModal({
+  open,
+  setContactIdToDelete,
+  deleteContact,
+}) {
+  if (!open) return null;
+
   return (
-    <dialog size="xs" open={open} onClose={handleToggle}>
-      <div className="p-8 flex flex-col items-center gap-4 bg-white rounded-lg shadow-2xl">
-        <div>Are you sure you want to delete this contact?</div>
-        <div className="flex justify-end p-2 gap-4">
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+      <div className="bg-white p-6 rounded-lg shadow-xl w-80 transform transition-all scale-100">
+        <h2 className="text-lg font-semibold text-center">Delete Contact</h2>
+        <p className="text-center text-gray-600 mt-2">
+          Are you sure you want to delete this contact?
+        </p>
+        <div className="flex justify-center gap-4 mt-4">
           <button
-            onClick={handleToggle}
-            className="bg-blue-500 text-white p-1 rounded-md w-12"
+            onClick={() => setContactIdToDelete(null)}
+            className="bg-gray-300 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-400 transition"
           >
-            No
+            Cancel
           </button>
           <button
-            onClick={deleteContact}
-            className="bg-red-500 text-white p-1 rounded-md w-12"
+            onClick={() => {
+              deleteContact();
+              setContactIdToDelete(null);
+            }}
+            className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition"
           >
-            Yes
+            Delete
           </button>
         </div>
       </div>
-    </dialog>
+    </div>
   );
 }

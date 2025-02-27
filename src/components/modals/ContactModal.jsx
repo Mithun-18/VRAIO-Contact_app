@@ -37,15 +37,12 @@ export function ContactModal({ open, handleToggle }) {
     email2Ref.current.value = "";
     handleToggle();
   }
+
+  if (!open) return null;
   return (
-    <dialog
-      size="xs"
-      open={open}
-      onClose={handleToggle}
-      className="w-4/5 max-w-2xl rounded-md"
-    >
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <form
-        className=" p-4 bg-white rounded shadow-2xl"
+        className=" p-4 bg-white rounded-lg shadow-2xl w-4/5 max-w-2xl"
         onSubmit={(e) => {
           e.preventDefault();
           handleSubmit();
@@ -120,6 +117,6 @@ export function ContactModal({ open, handleToggle }) {
           </div>
         </div>
       </form>
-    </dialog>
+    </div>
   );
 }

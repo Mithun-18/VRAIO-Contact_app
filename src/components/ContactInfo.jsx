@@ -2,8 +2,10 @@ import React from "react";
 import { AiFillDelete } from "react-icons/ai";
 import { BiDetail } from "react-icons/bi";
 import { MdEditSquare } from "react-icons/md";
+import useData from "../provider/DataProvider";
 
-export default function ContactInfo({ name, phone, email, handleToggle }) {
+export default function ContactInfo({ name, phone, email, id }) {
+  const { setContactIdToDelete } = useData();
   return (
     <div className="flex  items-center justify-between p-2 w-full">
       <div className="flex  items-center gap-4">
@@ -19,7 +21,7 @@ export default function ContactInfo({ name, phone, email, handleToggle }) {
         <AiFillDelete
           size={20}
           className="text-red-500 cursor-pointer"
-          onClick={handleToggle}
+          onClick={() => setContactIdToDelete(id)}
         />
       </div>
     </div>
