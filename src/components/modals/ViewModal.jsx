@@ -3,7 +3,7 @@ import useData from "../../provider/DataProvider";
 
 export default function ViewModal() {
   const { setContactIdToView, contactIdToView, getContact } = useData();
-  const [contact] = getContact();
+  const [contact] = getContact(contactIdToView);
   const listStyle = "flex gap-2";
 
   if (!contactIdToView) return null;

@@ -3,7 +3,15 @@ import InputBox from "../InputBox";
 import useData from "../../provider/DataProvider";
 
 export function ContactModal() {
-  const { addContact, openContactModal, setOpenContactModal } = useData();
+  const {
+    addContact,
+    openContactModal,
+    setOpenContactModal,
+    getContact,
+    contactIdToUpdate,
+    setContactIdToUpdate,
+    updateContact,
+  } = useData();
   const firstNameRef = useRef(0);
   const lastNameRef = useRef(0);
   const nickNameRef = useRef(0);
@@ -13,9 +21,11 @@ export function ContactModal() {
   const email1Ref = useRef(0);
   const email2Ref = useRef(0);
 
-  function handleSubmit() {
+  const [contact] = getContact(contactIdToUpdate);
+
+  async function handleSubmit() {
     let data = {
-      id: Date.now(),
+      id: contact?.id || Date.now(),
       firstName: firstNameRef?.current?.value,
       lastName: lastNameRef?.current?.value,
       nickName: nickNameRef?.current?.value,
@@ -25,7 +35,15 @@ export function ContactModal() {
       email1: email1Ref?.current?.value,
       email2: email2Ref?.current?.value,
     };
-    addContact(data);
+
+    if (contact?.id) {
+      console.log("here12323", contact);
+      await updateContact(contact.id);
+      setContactIdToUpdate(null);
+    } else {
+      console.log("here", contact);
+      addContact(data);
+    }
     setOpenContactModal(false);
   }
 
@@ -45,24 +63,28 @@ export function ContactModal() {
             placeholder="Firstname"
             inputRef={firstNameRef}
             required={true}
+            value={contact?.firstName}
           />
           <InputBox
             type="text"
             placeholder="Lastname"
             name="lastName"
             inputRef={lastNameRef}
+            value={contact?.lastName}
           />
           <InputBox
             type="text"
             placeholder="Nickname"
             name="nickName"
             inputRef={nickNameRef}
+            value={contact?.nickName}
           />
           <InputBox
             type="date"
             placeholder="DOB"
             name="dob"
             inputRef={dobRef}
+            value={contact?.dob}
           />
           <InputBox
             type="tel"
@@ -71,6 +93,7 @@ export function ContactModal() {
             Msg="Please enter exactly 10 digits"
             inputRef={phoneNumber1Ref}
             required={true}
+            value={contact?.phoneNumber1}
           />
           <InputBox
             type="tel"
@@ -78,23 +101,29 @@ export function ContactModal() {
             pattern="\d{10}"
             Msg="Please enter exactly 10 digits"
             inputRef={phoneNumber2Ref}
+            value={contact?.phoneNumber2}
           />
           <InputBox
             type="email"
             placeholder="Email 1"
             inputRef={email1Ref}
             required={true}
+            value={contact?.email1}
           />
           <InputBox
             type="email"
             placeholder="Email 2"
             name="email2"
             inputRef={email2Ref}
+            value={contact?.email2}
           />
           <div className="flex justify-end gap-4">
             <button
               type="button"
-              onClick={() => setOpenContactModal(false)}
+              onClick={() => {
+                setOpenContactModal(false);
+                setContactIdToUpdate(null);
+              }}
               className="bg-red-500 text-white p-2 rounded-md w-24"
             >
               Cancel

@@ -5,7 +5,12 @@ import { MdEditSquare } from "react-icons/md";
 import useData from "../provider/DataProvider";
 
 export default function ContactInfo({ name, phone, email, id }) {
-  const { setContactIdToDelete, setContactIdToView } = useData();
+  const {
+    setContactIdToDelete,
+    setContactIdToView,
+    setOpenContactModal,
+    setContactIdToUpdate,
+  } = useData();
   return (
     <div className="flex  items-center justify-between p-2 w-full">
       <div className="flex  items-center gap-4">
@@ -21,7 +26,14 @@ export default function ContactInfo({ name, phone, email, id }) {
           className="text-blue-500 cursor-pointer"
           onClick={() => setContactIdToView(id)}
         />
-        <MdEditSquare size={20} className="text-blue-500 cursor-pointer" />
+        <MdEditSquare
+          size={20}
+          className="text-blue-500 cursor-pointer"
+          onClick={() => {
+            setOpenContactModal(true);
+            setContactIdToUpdate(id);
+          }}
+        />
         <AiFillDelete
           size={20}
           className="text-red-500 cursor-pointer"

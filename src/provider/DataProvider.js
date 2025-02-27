@@ -40,10 +40,11 @@ export function DataProvider({ children }) {
 
   const [openContactModal, setOpenContactModal] = useState(false);
   const [contactIdToDelete, setContactIdToDelete] = useState(null);
-  const [contactIdToView, setContactIdToView] = useState(false);
+  const [contactIdToView, setContactIdToView] = useState(null);
+  const [contactIdToUpdate, setContactIdToUpdate] = useState(null);
 
-  function getContact() {
-    return contactList.filter((con) => contactIdToView === con.id);
+  function getContact(contactId) {
+    return contactList.filter((con) => contactId === con.id);
   }
 
   function addContact(contact) {
@@ -52,10 +53,17 @@ export function DataProvider({ children }) {
     } catch (error) {}
   }
 
-  function deleteContact() {
-    setContactList(
-      contactList.filter((contact) => contact.id !== contactIdToDelete)
-    );
+  async function updateContact(contact) {
+    // try {
+    //   deleteContact(contact.id);
+    //   addContact(contact);
+    // } catch (error) {
+    //   console.log("error", error);
+    // }
+  }
+
+  function deleteContact(contactId) {
+    setContactList(contactList.filter((contact) => contact.id !== contactId));
   }
 
   return (
@@ -68,9 +76,12 @@ export function DataProvider({ children }) {
         setContactIdToDelete,
         contactIdToView,
         setContactIdToView,
+        contactIdToUpdate,
+        setContactIdToUpdate,
         getContact,
         addContact,
         deleteContact,
+        updateContact,
       }}
     >
       {children}

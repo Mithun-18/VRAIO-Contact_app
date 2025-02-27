@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 export default function InputBox({
   type,
@@ -8,7 +8,9 @@ export default function InputBox({
   pattern,
   Msg,
   inputRef,
+  value,
 }) {
+  const [val, setVal] = useState(value);
   return (
     <input
       type={type || "text"}
@@ -18,6 +20,8 @@ export default function InputBox({
       pattern={pattern}
       title={Msg}
       ref={inputRef}
+      value={val || ""}
+      onChange={(e) => setVal(e.target.value)}
       className="input input-bordered border rounded-md p-2"
     />
   );
