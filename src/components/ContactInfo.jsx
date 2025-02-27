@@ -5,7 +5,7 @@ import { MdEditSquare } from "react-icons/md";
 import useData from "../provider/DataProvider";
 
 export default function ContactInfo({ name, phone, email, id }) {
-  const { setContactIdToDelete } = useData();
+  const { setContactIdToDelete, setContactIdToView } = useData();
   return (
     <div className="flex  items-center justify-between p-2 w-full">
       <div className="flex  items-center gap-4">
@@ -16,7 +16,11 @@ export default function ContactInfo({ name, phone, email, id }) {
         <span className="w-32 lg:w-80 md:w-64 text-sm truncate">{email}</span>
       </div>
       <div className="flex gap-4 ">
-        <BiDetail size={20} className="text-blue-500 cursor-pointer" />
+        <BiDetail
+          size={20}
+          className="text-blue-500 cursor-pointer"
+          onClick={() => setContactIdToView(id)}
+        />
         <MdEditSquare size={20} className="text-blue-500 cursor-pointer" />
         <AiFillDelete
           size={20}

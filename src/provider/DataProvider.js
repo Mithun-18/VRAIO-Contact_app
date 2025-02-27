@@ -40,17 +40,22 @@ export function DataProvider({ children }) {
 
   const [openContactModal, setOpenContactModal] = useState(false);
   const [contactIdToDelete, setContactIdToDelete] = useState(null);
+  const [contactIdToView, setContactIdToView] = useState(false);
+
+  function getContact() {
+    return contactList.filter((con) => contactIdToView === con.id);
+  }
 
   function addContact(contact) {
     try {
       setContactList((prev) => [...prev, contact]);
-    } catch (error) {
-      console.log("here", error);
-    }
+    } catch (error) {}
   }
 
-  function deleteContact(contact_id) {
-    setContactList(contactList.filter((contact) => contact.id !== contact_id));
+  function deleteContact() {
+    setContactList(
+      contactList.filter((contact) => contact.id !== contactIdToDelete)
+    );
   }
 
   return (
@@ -61,6 +66,9 @@ export function DataProvider({ children }) {
         setOpenContactModal,
         contactIdToDelete,
         setContactIdToDelete,
+        contactIdToView,
+        setContactIdToView,
+        getContact,
         addContact,
         deleteContact,
       }}

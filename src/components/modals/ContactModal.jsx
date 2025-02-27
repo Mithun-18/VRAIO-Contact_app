@@ -2,8 +2,8 @@ import React, { useRef } from "react";
 import InputBox from "../InputBox";
 import useData from "../../provider/DataProvider";
 
-export function ContactModal({ open, handleToggle }) {
-  const { addContact } = useData();
+export function ContactModal() {
+  const { addContact, openContactModal, setOpenContactModal } = useData();
   const firstNameRef = useRef(0);
   const lastNameRef = useRef(0);
   const nickNameRef = useRef(0);
@@ -25,20 +25,11 @@ export function ContactModal({ open, handleToggle }) {
       email1: email1Ref?.current?.value,
       email2: email2Ref?.current?.value,
     };
-    console.log("data", data);
     addContact(data);
-    firstNameRef.current.value = "";
-    lastNameRef.current.value = "";
-    nickNameRef.current.value = "";
-    dobRef.current.value = "";
-    phoneNumber1Ref.current.value = "";
-    phoneNumber2Ref.current.value = "";
-    email1Ref.current.value = "";
-    email2Ref.current.value = "";
-    handleToggle();
+    setOpenContactModal(false);
   }
 
-  if (!open) return null;
+  if (!openContactModal) return null;
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <form
@@ -103,7 +94,7 @@ export function ContactModal({ open, handleToggle }) {
           <div className="flex justify-end gap-4">
             <button
               type="button"
-              onClick={handleToggle}
+              onClick={() => setOpenContactModal(false)}
               className="bg-red-500 text-white p-2 rounded-md w-24"
             >
               Cancel

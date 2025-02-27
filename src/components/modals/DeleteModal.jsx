@@ -1,15 +1,13 @@
 import React from "react";
+import useData from "../../provider/DataProvider";
 
-export default function DeleteModal({
-  open,
-  setContactIdToDelete,
-  deleteContact,
-}) {
-  if (!open) return null;
+export default function DeleteModal() {
+  const { contactIdToDelete, setContactIdToDelete, deleteContact } = useData();
+  if (!contactIdToDelete) return null;
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-white p-6 rounded-lg shadow-xl w-80 transform transition-all scale-100">
+      <div className="bg-white p-6 rounded-lg shadow-xl">
         <h2 className="text-lg font-semibold text-center">Delete Contact</h2>
         <p className="text-center text-gray-600 mt-2">
           Are you sure you want to delete this contact?
