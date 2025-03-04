@@ -1,6 +1,7 @@
-import React, { useRef } from "react";
-import InputBox from "../InputBox";
+import React, { useEffect, useRef, useState } from "react";
+import { IoMdAddCircle, IoMdRemoveCircle } from "react-icons/io";
 import useData from "../../provider/DataProvider";
+import InputBox from "../InputBox";
 
 export function ContactModal() {
   const {
@@ -16,26 +17,33 @@ export function ContactModal() {
   const lastNameRef = useRef(0);
   const nickNameRef = useRef(0);
   const dobRef = useRef(0);
-  const phoneNumber1Ref = useRef(0);
-  const phoneNumber2Ref = useRef(0);
+  const phoneNumberRef = useRef([]);
   const email1Ref = useRef(0);
   const email2Ref = useRef(0);
 
   const [contact] = getContact(contactIdToUpdate);
+  const [addPhoneField, setAddPhoneField] = useState([0]);
+
+  useEffect(() => {
+    if (contact?.phoneNumber) {
+      setAddPhoneField(contact.phoneNumber.map((_, i) => i));
+    }
+  }, [contact?.phoneNumber]);
 
   function handleSubmit() {
+    const phNums = addPhoneField.map(
+      (val) => +phoneNumberRef.current[val].value
+    );
     let data = {
       id: contact?.id || Date.now(),
       firstName: firstNameRef?.current?.value,
       lastName: lastNameRef?.current?.value,
       nickName: nickNameRef?.current?.value,
       dob: dobRef?.current?.value,
-      phoneNumber1: phoneNumber1Ref?.current?.value,
-      phoneNumber2: phoneNumber2Ref?.current?.value,
+      phoneNumber: phNums,
       email1: email1Ref?.current?.value,
       email2: email2Ref?.current?.value,
     };
-
     if (contact?.id) {
       updateContact(data);
       setContactIdToUpdate(null);
@@ -43,6 +51,7 @@ export function ContactModal() {
       addContact(data);
     }
     setOpenContactModal(false);
+    setAddPhoneField([0]);
   }
 
   if (!openContactModal) return null;
@@ -84,23 +93,40 @@ export function ContactModal() {
             inputRef={dobRef}
             value={contact?.dob}
           />
-          <InputBox
-            type="tel"
-            placeholder="Phone number 1"
-            pattern="\d{10}"
-            Msg="Please enter exactly 10 digits"
-            inputRef={phoneNumber1Ref}
-            required={true}
-            value={contact?.phoneNumber1}
-          />
-          <InputBox
-            type="tel"
-            placeholder="Phone number 2 (Optional)"
-            pattern="\d{10}"
-            Msg="Please enter exactly 10 digits"
-            inputRef={phoneNumber2Ref}
-            value={contact?.phoneNumber2}
-          />
+          {addPhoneField.map((val, i) => (
+            <div className="flex items-center gap-4" key={val}>
+              <InputBox
+                type="tel"
+                placeholder="Phone number"
+                pattern="\d{10}"
+                Msg="Please enter exactly 10 digits"
+                inputRef={(el) => (phoneNumberRef.current[val] = el)}
+                value={contact?.phoneNumber[i]}
+              />
+              {i === 0 ? (
+                <IoMdAddCircle
+                  size={28}
+                  className="text-blue-500"
+                  onClick={() =>
+                    setAddPhoneField([
+                      ...addPhoneField,
+                      addPhoneField[addPhoneField.length - 1] + 1,
+                    ])
+                  }
+                />
+              ) : (
+                <IoMdRemoveCircle
+                  size={28}
+                  className="text-red-500"
+                  onClick={() =>
+                    setAddPhoneField(
+                      addPhoneField.filter((value) => val !== value)
+                    )
+                  }
+                />
+              )}
+            </div>
+          ))}
           <InputBox
             type="email"
             placeholder="Email 1"
@@ -121,6 +147,7 @@ export function ContactModal() {
               onClick={() => {
                 setOpenContactModal(false);
                 setContactIdToUpdate(null);
+                setAddPhoneField([0]);
               }}
               className="bg-red-500 text-white p-2 rounded-md w-24"
             >

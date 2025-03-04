@@ -22,7 +22,7 @@ export default function InputBox({
       ref={inputRef}
       value={val || ""}
       onChange={(e) => setVal(e.target.value)}
-      className="input input-bordered border rounded-md p-2"
+      className="input input-bordered border rounded-md p-2 w-full"
     />
   );
 }
