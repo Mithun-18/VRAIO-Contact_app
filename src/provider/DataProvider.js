@@ -10,8 +10,7 @@ export function DataProvider({ children }) {
       nickName: "Mithu",
       dob: "2003-09-26",
       phoneNumber: [6360320806],
-      email1: "mithunpoojary180@gmail.com",
-      email2: "",
+      email: ["mithunpoojary180@gmail.com", "mith80441@gmail.com"],
     },
     {
       id: 124,
@@ -20,8 +19,7 @@ export function DataProvider({ children }) {
       nickName: "",
       dob: "2003-02-24",
       phoneNumber: [9999999999, 6360320806],
-      email1: "s@gmail.com",
-      email2: "",
+      email: ["s@gmail.com"],
     },
     {
       id: 125,
@@ -30,8 +28,7 @@ export function DataProvider({ children }) {
       nickName: "",
       dob: "2003-02-24",
       phoneNumber: [9360320806],
-      email1: "manoj@gmail.com",
-      email2: "",
+      email: ["manoj@gmail.com"],
     },
   ]);
 

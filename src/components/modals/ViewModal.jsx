@@ -44,14 +44,12 @@ export default function ViewModal() {
         </div>
         <div className={listStyle}>
           <span>Email:- </span>
-          <span>{contact.email1}</span>
-        </div>
-        {contact.email2 && (
-          <div className={listStyle}>
-            <span>Email 2:- </span>
-            <span>{contact.email2}</span>
+          <div className="flex flex-col">
+            {contact.email.map((em, i) => (
+              <span key={i}>{em}</span>
+            ))}
           </div>
-        )}
+        </div>
       </div>
     </div>
   );

@@ -15,7 +15,7 @@ export default function ContactList() {
               id={contact.id}
               name={`${contact.firstName} ${contact.lastName}`}
               phone={contact.phoneNumber[0]}
-              email={contact.email1}
+              email={contact.email[0]}
             />
           </div>
         ))}
