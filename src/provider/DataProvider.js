@@ -1,6 +1,11 @@
 import { createContext, useContext, useState } from "react";
 import http from "../services/http";
-import { GET_ALL_CONTACTS } from "../services/constants";
+import {
+  ADD_CONTACT,
+  DELETE_CONTACT,
+  GET_ALL_CONTACTS,
+  UPDATE_CONTACT,
+} from "../services/constants";
 
 const DataContext = createContext();
 export function DataProvider({ children }) {
@@ -19,26 +24,38 @@ export function DataProvider({ children }) {
     try {
       let res = await http.get(GET_ALL_CONTACTS);
       setContactList([...res.data.data]);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (GET_ALL_CONTACTS) {}
   }
 
-  function addContact(contact) {
+  async function addContact(contact) {
     try {
+      let res = await http.post(ADD_CONTACT, { contact });
+      contact.contactId = res.data.data.contactId;
       setContactList((prev) => [...prev, contact]);
-    } catch (error) {}
+    } catch (_) {}
   }
 
-  function updateContact(contact) {
+  async function updateContact(contact) {
     try {
-      deleteContact(contact.id);
-      addContact(contact);
+      await http.put(UPDATE_CONTACT, { contact });
+      setContactList(
+        contactList.map((con) => {
+          if (con.contactId === contact.contactId) {
+            return contact;
+          }
+          return con;
+        })
+      );
     } catch (error) {}
   }
 
-  function deleteContact(contactId) {
-    setContactList(contactList.filter((contact) => contact.id !== contactId));
+  async function deleteContact(contactId) {
+    try {
+      await http.delete(DELETE_CONTACT, { params: { contactId } });
+      setContactList(
+        contactList.filter((contact) => contact.contactId !== contactId)
+      );
+    } catch (_) {}
   }
 
   return (

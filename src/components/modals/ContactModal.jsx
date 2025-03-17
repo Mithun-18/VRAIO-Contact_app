@@ -30,11 +30,11 @@ export function ContactModal() {
   }, [contactIdToUpdate]);
 
   useEffect(() => {
-    if (contact?.phoneNumber) {
-      setAddPhoneField(contact.phoneNumber.map((_, i) => i));
+    if (contact?.phoneNumbers) {
+      setAddPhoneField(contact.phoneNumbers.map((_, i) => i));
     }
-    if (contact?.email) {
-      setAddEmailField(contact.email.map((_, i) => i));
+    if (contact?.emails) {
+      setAddEmailField(contact.emails.map((_, i) => i));
     }
   }, [contact]);
 
@@ -49,15 +49,15 @@ export function ContactModal() {
       .filter((email) => email !== "");
 
     let data = {
-      id: contact?.id || Date.now(),
       firstName: firstNameRef?.current?.value,
       lastName: lastNameRef?.current?.value,
       nickName: nickNameRef?.current?.value,
-      dob: dobRef?.current?.value,
-      phoneNumber: phNums,
-      email: emails,
+      dob: dobRef?.current?.value || null,
+      phoneNumbers: phNums,
+      emails: emails,
     };
-    if (contact?.id) {
+    if (contact?.contactId) {
+      data.contactId = contact.contactId;
       updateContact(data);
       setContactIdToUpdate(null);
     } else {
@@ -66,9 +66,11 @@ export function ContactModal() {
     setOpenContactModal(false);
     setAddPhoneField([0]);
     setAddEmailField([0]);
+    setContact(null)
   }
 
-  if (!openContactModal) return null;
+  if (!openContactModal || (contactIdToUpdate && !contact)) return null;
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 ">
       <form
@@ -117,7 +119,7 @@ export function ContactModal() {
                 Msg="Please enter exactly 10 digits"
                 inputRef={(el) => (phoneNumberRef.current[val] = el)}
                 required={i === 0}
-                value={contact?.phoneNumber[i]}
+                value={contact?.phoneNumbers[i]}
               />
               {i === 0 ? (
                 <IoMdAddCircle
@@ -151,7 +153,7 @@ export function ContactModal() {
                 placeholder="Email"
                 inputRef={(el) => (emailRef.current[val] = el)}
                 required={i === 0}
-                value={contact?.email[i]}
+                value={contact?.emails[i]}
               />
               {i === 0 ? (
                 <IoMdAddCircle
@@ -184,6 +186,7 @@ export function ContactModal() {
               onClick={() => {
                 setOpenContactModal(false);
                 setContactIdToUpdate(null);
+                setContact(null);
                 setAddPhoneField([0]);
                 setAddEmailField([0]);
               }}

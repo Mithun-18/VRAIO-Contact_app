@@ -39,7 +39,13 @@ export default function ViewModal() {
         {contact?.dob && (
           <div className={listStyle}>
             <span>Date Of Birth:- </span>
-            <span>{contact?.dob}</span>
+            <span>
+              {new Date(contact?.dob).toLocaleDateString("en-IN", {
+                month: "long",
+                day: "numeric",
+                year: "numeric",
+              })}
+            </span>
           </div>
         )}
         <div className={listStyle}>
