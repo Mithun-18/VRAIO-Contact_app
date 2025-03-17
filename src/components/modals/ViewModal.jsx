@@ -1,10 +1,15 @@
 import { IoCloseSharp } from "react-icons/io5";
 import useData from "../../provider/DataProvider";
+import { useEffect, useState } from "react";
 
 export default function ViewModal() {
   const { setContactIdToView, contactIdToView, getContact } = useData();
-  const [contact] = getContact(contactIdToView);
+  const [contact, setContact] = useState(null);
   const listStyle = "flex gap-2";
+
+  useEffect(() => {
+    setContact(...getContact(contactIdToView));
+  }, [contactIdToView]);
 
   if (!contactIdToView) return null;
 
@@ -15,29 +20,32 @@ export default function ViewModal() {
           <IoCloseSharp
             color="red"
             size={24}
-            onClick={() => setContactIdToView(null)}
+            onClick={() => {
+              setContactIdToView(null);
+              setContact(null);
+            }}
           />
         </div>
         <div className={listStyle}>
           <span>Name:-</span>
-          <span>{` ${contact.firstName} ${contact.lastName}`}</span>
+          <span>{` ${contact?.firstName} ${contact?.lastName}`}</span>
         </div>
-        {contact.nickName && (
+        {contact?.nickName && (
           <div className={listStyle}>
             <span>Nick Name:- </span>
-            <span> {contact.nickName}</span>
+            <span> {contact?.nickName}</span>
           </div>
         )}
-        {contact.dob && (
+        {contact?.dob && (
           <div className={listStyle}>
             <span>Date Of Birth:- </span>
-            <span>{contact.dob}</span>
+            <span>{contact?.dob}</span>
           </div>
         )}
         <div className={listStyle}>
           <span>Phone Number:- </span>
           <div className="flex flex-col">
-            {contact.phoneNumber.map((ph, i) => (
+            {contact?.phoneNumbers.map((ph, i) => (
               <span key={i}>{ph}</span>
             ))}
           </div>
@@ -45,7 +53,7 @@ export default function ViewModal() {
         <div className={listStyle}>
           <span>Email:- </span>
           <div className="flex flex-col">
-            {contact.email.map((em, i) => (
+            {contact?.emails.map((em, i) => (
               <span key={i}>{em}</span>
             ))}
           </div>

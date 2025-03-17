@@ -21,9 +21,13 @@ export function ContactModal() {
   const phoneNumberRef = useRef([]);
   const emailRef = useRef([]);
 
-  const [contact] = getContact(contactIdToUpdate);
+  const [contact, setContact] = useState(null);
   const [addPhoneField, setAddPhoneField] = useState([0]);
   const [addEmailField, setAddEmailField] = useState([0]);
+
+  useEffect(() => {
+    setContact(...getContact(contactIdToUpdate));
+  }, [contactIdToUpdate]);
 
   useEffect(() => {
     if (contact?.phoneNumber) {

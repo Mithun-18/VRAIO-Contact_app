@@ -1,36 +1,10 @@
 import { createContext, useContext, useState } from "react";
+import http from "../services/http";
+import { GET_ALL_CONTACTS } from "../services/constants";
 
 const DataContext = createContext();
 export function DataProvider({ children }) {
-  const [contactList, setContactList] = useState([
-    {
-      id: 123,
-      firstName: "Mithun",
-      lastName: "Poojary",
-      nickName: "Mithu",
-      dob: "2003-09-26",
-      phoneNumber: [6360320806],
-      email: ["mithunpoojary180@gmail.com", "mith80441@gmail.com"],
-    },
-    {
-      id: 124,
-      firstName: "Sudeep",
-      lastName: "Acharya",
-      nickName: "",
-      dob: "2003-02-24",
-      phoneNumber: [9999999999, 6360320806],
-      email: ["s@gmail.com"],
-    },
-    {
-      id: 125,
-      firstName: "Manoj",
-      lastName: "shetty",
-      nickName: "",
-      dob: "2003-02-24",
-      phoneNumber: [9360320806],
-      email: ["manoj@gmail.com"],
-    },
-  ]);
+  const [contactList, setContactList] = useState([]);
 
   const [openContactModal, setOpenContactModal] = useState(false);
   const [contactIdToDelete, setContactIdToDelete] = useState(null);
@@ -38,7 +12,16 @@ export function DataProvider({ children }) {
   const [contactIdToUpdate, setContactIdToUpdate] = useState(null);
 
   function getContact(contactId) {
-    return contactList.filter((con) => contactId === con.id);
+    return contactList.filter((con) => contactId === con.contactId);
+  }
+
+  async function getAllContacts() {
+    try {
+      let res = await http.get(GET_ALL_CONTACTS);
+      setContactList([...res.data.data]);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   function addContact(contact) {
@@ -74,6 +57,7 @@ export function DataProvider({ children }) {
         addContact,
         deleteContact,
         updateContact,
+        getAllContacts,
       }}
     >
       {children}
